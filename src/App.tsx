@@ -10,7 +10,7 @@ function App() {
 
   return (
       <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
+          <BrowserRouter basename="/interview-2">
             <Index/>
             <AppRouter/>
           </BrowserRouter>
