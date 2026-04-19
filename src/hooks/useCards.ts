@@ -17,7 +17,7 @@ export interface Question {
 }
 
 async function fetchQuestions(): Promise<Question[]> {
-    const res = await fetch('/questions.json');
+    const res = await fetch(`${import.meta.env.BASE_URL}questions.json`);
     if (!res.ok) {
         throw new Error('Не удалось загрузить вопросы');
     }
