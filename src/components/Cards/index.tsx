@@ -127,6 +127,7 @@ export const Cards = () => {
         setShuffleKey((k) => k + 1);
     }, []);
 
+    const [filtersOpen, setFiltersOpen] = useState(false);
     const [showScrollTop, setShowScrollTop] = useState(false);
 
     useEffect(() => {
@@ -173,9 +174,27 @@ export const Cards = () => {
     if (isLoading) return <div className="cards-state">Загрузка...</div>;
     if (isError) return <div className="cards-state cards-state--error">Ошибка: {error?.message}</div>;
 
+    const activeFilterCount =
+        selectedSkills.size + selectedDifficulty.size + selectedRating.size;
+
     return (
         <div className="cards-layout">
             <div className="cards-toolbar">
+                <button
+                    type="button"
+                    className={`cards-toolbar__toggle${filtersOpen ? ' cards-toolbar__toggle--open' : ''}`}
+                    onClick={() => setFiltersOpen((v) => !v)}
+                    aria-expanded={filtersOpen}
+                >
+                    <span>Фильтры</span>
+                    {activeFilterCount > 0 && (
+                        <span className="cards-toolbar__badge">{activeFilterCount}</span>
+                    )}
+                    <svg className="cards-toolbar__chevron" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                        <path fillRule="evenodd" d="M4.47 6.47a.75.75 0 011.06 0L8 8.94l2.47-2.47a.75.75 0 111.06 1.06l-3 3a.75.75 0 01-1.06 0l-3-3a.75.75 0 010-1.06z" clipRule="evenodd" />
+                    </svg>
+                </button>
+                {filtersOpen && <>
                 <span className="cards-toolbar__hint">
                     Навыки: хотя бы один из отмеченных. Сложность и рейтинг: пустой фильтр — все значения. Подборка: «50 / 100
                     случайных» — новый набор без прокрутки всего списка; «Новый набор» — другие вопросы при тех же фильтрах.
@@ -269,6 +288,7 @@ export const Cards = () => {
                         )}
                     </div>
                 </div>
+                </>}
             </div>
             <div ref={parentRef} className="cards-container">
                 {selectedSkills.size === 0 ? (

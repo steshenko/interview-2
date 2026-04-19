@@ -15,6 +15,64 @@
   border-bottom: 1px solid var(--border);
 }
 
+.cards-toolbar__toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.cards-toolbar__toggle:hover {
+  border-color: var(--text-tertiary);
+  color: var(--text-primary);
+}
+
+.cards-toolbar__toggle--open {
+  border-color: var(--accent);
+  background: rgba(0, 113, 227, 0.12);
+  color: var(--text-primary);
+}
+
+.cards-toolbar__toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.cards-toolbar__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.cards-toolbar__chevron {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.cards-toolbar__toggle--open .cards-toolbar__chevron {
+  transform: rotate(180deg);
+}
+
 .cards-toolbar__hint {
   display: block;
   font-size: 13px;
