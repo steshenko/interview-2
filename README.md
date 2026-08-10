@@ -1,73 +1,37 @@
-# React + TypeScript + Vite
+# Interview 2.0
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Список вопросов для подготовки к техническому собеседованию с фильтрами по категориям и сложности.
 
-Currently, two official plugins are available:
+## Деплой: статичный HTML
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+`npm run deploy` (и `npm run build`) собирают сайт как **один самодостаточный `dist/index.html`**
+(скрипт [scripts/build-static.mjs](scripts/build-static.mjs)) — без React/Vite-рантайма и
+`<script type="module">`. Все вопросы отрисованы напрямую в HTML через `<details>`/`<summary>`,
+поэтому текст читается даже при полностью отключённом JavaScript — это важно для встроенных
+браузеров электронных книг (Kindle, PocketBook, Onyx Boox и т.п.), у которых часто нет ES-модулей
+или JS вовсе. Фильтры по категориям/сложности и режим случайной подборки — необязательное
+улучшение поверх: обычный `<script>` в конце файла (код в стиле ES5, без стрелочных функций и
+шаблонных строк) просто показывает/скрывает уже отрисованные карточки.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build          # генерирует dist/index.html из public/questions.json
+npm run preview:static # локальный просмотр dist/ на http://localhost:4173
+npm run deploy         # build + публикация dist/ в ветку gh-pages
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Разработка (React/Vite SPA)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Оригинальная React-версия (react-router, react-query, tanstack-virtual) осталась в `src/` и
+используется только для локальной разработки/дальнейших изменений — в проде она не публикуется.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev       # dev-сервер Vite с HMR
+npm run build:app # прод-сборка SPA (tsc -b && vite build), не используется в деплое
+npm run lint
 ```
+
+## Данные
+
+`public/questions.json` — источник вопросов (используются поля `id`, `title`, `shortAnswer`,
+`complexity`, `questionSkills`). И React-компонент [Card](src/components/Card/index.tsx), и
+генератор статики читают эти же поля — при добавлении новых полей фильтрации меняйте оба места.

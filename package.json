@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/build-static.mjs",
+    "build:app": "tsc -b && vite build",
+    "preview:static": "npx serve -l 4173 dist",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
