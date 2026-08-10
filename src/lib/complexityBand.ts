@@ -15,3 +15,7 @@ export const DIFFICULTY_RANGE_LABEL: Record<DifficultyTier, string> = {
     d78: '7–8',
     d910: '9–10',
 };
+
+export const DIFFICULTY_FILTERS: { id: DifficultyTier; label: string }[] = (
+    ['d13', 'd46', 'd78', 'd910'] as const
+).map((id) => ({ id, label: DIFFICULTY_RANGE_LABEL[id] }));

@@ -11,8 +11,6 @@ export interface Question {
     shortAnswer?: string;
     /** 1–10, диапазоны как в Question Difficulty: 1–3, 4–6, 7–8, 9–10 */
     complexity?: number;
-    /** 1–5, Question Rating */
-    rate?: number;
     questionSkills?: QuestionSkill[];
 }
 

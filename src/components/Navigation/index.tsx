@@ -3,7 +3,6 @@ import './Navigation.css';
 
 const links = [
     { label: 'Home', to: '/' },
-    { label: 'Cards', to: '/card-page' },
 ];
 
 export const Navigation = () => {

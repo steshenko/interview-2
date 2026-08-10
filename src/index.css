@@ -1,13 +1,13 @@
 :root {
   /* Backgrounds */
-  --bg: #000000;
-  --bg-elevated: #1c1c1e;
-  --bg-secondary: #2c2c2e;
-  --bg-tertiary: #3a3a3c;
+  --bg: #ffffff;
+  --bg-elevated: #f5f5f7;
+  --bg-secondary: #e8e8ed;
+  --bg-tertiary: #d2d2d7;
 
   /* Text */
-  --text-primary: #f5f5f7;
-  --text-secondary: #a1a1a6;
+  --text-primary: #1d1d1f;
+  --text-secondary: #424245;
   --text-tertiary: #6e6e73;
 
   /* Accent */
@@ -15,8 +15,8 @@
   --accent-hover: #0077ed;
 
   /* Borders */
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.15);
+  --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.15);
 
   /* Layout */
   --nav-height: 52px;
@@ -34,7 +34,7 @@
   background-color: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *,
@@ -89,7 +89,7 @@ code {
   font-family: var(--mono);
   font-size: 13px;
   background: var(--bg-secondary);
-  color: #e8e8ed;
+  color: var(--text-primary);
   padding: 2px 6px;
   border-radius: 4px;
 }
