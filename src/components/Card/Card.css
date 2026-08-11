@@ -31,6 +31,20 @@
   background: rgba(0, 0, 0, 0.03);
 }
 
+.card__topic {
+  flex-shrink: 0;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text-tertiary);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+
 .card__title {
   font-size: 16px;
   font-weight: 400;
@@ -54,28 +68,20 @@
   gap: 5px;
 }
 
+/* Уровень сложности 1–4: считаем закрашенные точки, а не различаем по цвету —
+   так видно и на чёрно-белом экране (e-ink ридеры и т.п.) */
 .card__dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
+  border: 1px solid var(--text-tertiary);
+  background: transparent;
   flex-shrink: 0;
 }
 
-/* Диапазоны 1–3 / 4–6 / 7–8 / 9–10: три точки одного цвета */
-.card__complexity--d13 .card__dot {
-  background: #8e8e93;
-}
-
-.card__complexity--d46 .card__dot {
-  background: #34c759;
-}
-
-.card__complexity--d78 .card__dot {
-  background: #ff9f0a;
-}
-
-.card__complexity--d910 .card__dot {
-  background: #ff453a;
+.card__dot--filled {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
 }
 
 .card__chevron {

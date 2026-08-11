@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { difficultyTier, DIFFICULTY_RANGE_LABEL } from '../../lib/complexityBand.js';
+import { difficultyTier, DIFFICULTY_LEVEL, DIFFICULTY_RANGE_LABEL } from '../../lib/complexityBand.js';
 import './Card.css';
 
 interface CardProps {
@@ -8,6 +8,7 @@ interface CardProps {
         title: string;
         shortAnswer?: string;
         complexity?: number;
+        questionSkills?: { title: string }[];
     };
 }
 
@@ -15,6 +16,10 @@ export const Card = ({ card }: CardProps) => {
     const [expanded, setExpanded] = useState(false);
     const [bodyMounted, setBodyMounted] = useState(false);
     const tier = difficultyTier(card.complexity);
+    const level = DIFFICULTY_LEVEL[tier];
+    const topics = Array.from(
+        new Set((card.questionSkills ?? []).map((s) => s.title.trim()).filter(Boolean)),
+    );
 
     const handleToggle = useCallback(() => {
         if (!card.shortAnswer) return;
@@ -57,16 +62,22 @@ export const Card = ({ card }: CardProps) => {
                     }
                 }}
             >
+                {topics.length > 0 && (
+                    <span className="card__topic">{topics.join(', ')}</span>
+                )}
                 <h2 className="card__title">{card.title}</h2>
                 <div className="card__header-right">
                     <span
-                        className={`card__complexity card__complexity--${tier}`}
+                        className="card__complexity"
                         title={`Сложность ${DIFFICULTY_RANGE_LABEL[tier]}`}
                         aria-hidden="true"
                     >
-                        <span className="card__dot" />
-                        <span className="card__dot" />
-                        <span className="card__dot" />
+                        {[1, 2, 3, 4].map((i) => (
+                            <span
+                                key={i}
+                                className={`card__dot${i <= level ? ' card__dot--filled' : ''}`}
+                            />
+                        ))}
                     </span>
                     <svg
                         className={`card__chevron${expanded ? ' card__chevron--open' : ''}`}

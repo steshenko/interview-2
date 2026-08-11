@@ -71,12 +71,18 @@ const questions = raw.map((q) => {
     const skillIds = SKILL_FILTERS.filter((f) =>
         (q.questionSkills || []).some((s) => s.title === f.skillTitle),
     ).map((f) => f.id);
+    // Тема вопроса — реальные теги из данных (не ограничены 6 категориями тулбара),
+    // чтобы у React/Redux/Webpack-вопросов тоже была подпись, а не только у HTML/CSS/JS/TS/React/Git.
+    const topics = Array.from(
+        new Set((q.questionSkills || []).map((s) => (s.title || '').trim()).filter(Boolean)),
+    );
     return {
         id: q.id,
         title: q.title || '',
         shortAnswer: neutralizeRawTextTags(q.shortAnswer || ''),
         tier: difficultyTier(q.complexity),
         skillIds,
+        topics,
     };
 });
 
@@ -87,7 +93,20 @@ const DIFFICULTY_COLOR = {
     d910: '#ff453a',
 };
 
+// Уровень 1–4 для отрисовки закрашенных/пустых точек — не завязан на цвет,
+// поэтому читаем на чёрно-белом экране (ридеры и т.п.)
+const DIFFICULTY_LEVEL = { d13: 1, d46: 2, d78: 3, d910: 4 };
+
 const DIFFICULTY_LABEL = Object.fromEntries(DIFFICULTY_FILTERS.map((d) => [d.id, d.label]));
+
+function renderDifficultyDots(tier) {
+    const level = DIFFICULTY_LEVEL[tier] || 1;
+    let dots = '';
+    for (let i = 1; i <= 4; i++) {
+        dots += `<span class="dot${i <= level ? ' dot--filled' : ''}"></span>`;
+    }
+    return dots;
+}
 
 function renderPill(extraAttrs, label, active) {
     return `<button type="button" class="pill${active ? ' active' : ''}" ${extraAttrs}>${label}</button>`;
@@ -110,11 +129,14 @@ const samplePills = [
 
 const cardsHtml = questions
     .map((q) => {
-        const dot = `<span class="dot" style="background:${DIFFICULTY_COLOR[q.tier]}"></span>`;
+        const topicsLabel = q.topics.join(', ');
+        const topicHtml = topicsLabel
+            ? `<span class="card-topic">${escapeHtml(topicsLabel)}</span>`
+            : '';
         return `<details class="card" data-skills="${q.skillIds.join(',')}" data-difficulty="${q.tier}">
             <summary class="card-header">
-                <span class="card-title">${escapeHtml(q.title)}</span>
-                <span class="card-meta" title="Сложность ${escapeAttr(DIFFICULTY_LABEL[q.tier])}">${dot}${dot}${dot}</span>
+                <span class="card-meta" title="Сложность ${escapeAttr(DIFFICULTY_LABEL[q.tier])}">${renderDifficultyDots(q.tier)}</span>
+                ${topicHtml}<span class="card-title">${escapeHtml(q.title)}</span>
             </summary>
             ${q.shortAnswer ? `<div class="card-body">${q.shortAnswer}</div>` : ''}
         </details>`;
@@ -188,17 +210,40 @@ const html = `<!doctype html>
   .card-title {
     font-size: 16px;
   }
+  .card-topic {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #6e6e73;
+    border: 1px solid #c7c7cc;
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin-right: 8px;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
   .card-meta {
     float: right;
     white-space: nowrap;
     margin-left: 12px;
   }
+  /* Уровень сложности 1–4: закрашенные точки считаются, а не различаются по цвету —
+     видно и на чёрно-белом экране (e-ink ридеры). */
   .dot {
     display: inline-block;
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
     margin-left: 4px;
     border-radius: 50%;
+    border: 1px solid #8e8e93;
+    background: transparent;
+    vertical-align: middle;
+  }
+  .dot--filled {
+    background: #1d1d1f;
+    border-color: #1d1d1f;
   }
   .card-body {
     padding: 0 4px 18px;

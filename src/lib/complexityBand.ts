@@ -19,3 +19,11 @@ export const DIFFICULTY_RANGE_LABEL: Record<DifficultyTier, string> = {
 export const DIFFICULTY_FILTERS: { id: DifficultyTier; label: string }[] = (
     ['d13', 'd46', 'd78', 'd910'] as const
 ).map((id) => ({ id, label: DIFFICULTY_RANGE_LABEL[id] }));
+
+/** Уровень 1–4 для точек-индикатора сложности (закрашено/пусто, не завязано на цвет) */
+export const DIFFICULTY_LEVEL: Record<DifficultyTier, number> = {
+    d13: 1,
+    d46: 2,
+    d78: 3,
+    d910: 4,
+};
