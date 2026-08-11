@@ -136,7 +136,10 @@ const cardsHtml = questions
         return `<details class="card" data-skills="${q.skillIds.join(',')}" data-difficulty="${q.tier}">
             <summary class="card-header">
                 <span class="card-meta" title="Сложность ${escapeAttr(DIFFICULTY_LABEL[q.tier])}">${renderDifficultyDots(q.tier)}</span>
-                ${topicHtml}<span class="card-title">${escapeHtml(q.title)}</span>
+                <span class="card-main">
+                    <span class="card-title">${escapeHtml(q.title)}</span>
+                    ${topicHtml}
+                </span>
             </summary>
             ${q.shortAnswer ? `<div class="card-body">${q.shortAnswer}</div>` : ''}
         </details>`;
@@ -207,22 +210,25 @@ const html = `<!doctype html>
   .card-header::-webkit-details-marker {
     display: none;
   }
+  .card-main {
+    display: block;
+    overflow: hidden;
+  }
   .card-title {
+    display: block;
     font-size: 16px;
   }
   .card-topic {
     display: inline-block;
-    font-size: 11px;
+    margin-top: 5px;
+    font-size: 9px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.02em;
     color: #6e6e73;
     border: 1px solid #c7c7cc;
     border-radius: 4px;
-    padding: 1px 6px;
-    margin-right: 8px;
-    vertical-align: middle;
-    white-space: nowrap;
+    padding: 1px 5px;
   }
   .card-meta {
     float: right;

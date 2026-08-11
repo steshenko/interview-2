@@ -62,10 +62,12 @@ export const Card = ({ card }: CardProps) => {
                     }
                 }}
             >
-                {topics.length > 0 && (
-                    <span className="card__topic">{topics.join(', ')}</span>
-                )}
-                <h2 className="card__title">{card.title}</h2>
+                <div className="card__main">
+                    <h2 className="card__title">{card.title}</h2>
+                    {topics.length > 0 && (
+                        <span className="card__topic">{topics.join(', ')}</span>
+                    )}
+                </div>
                 <div className="card__header-right">
                     <span
                         className="card__complexity"

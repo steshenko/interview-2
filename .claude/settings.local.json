@@ -20,7 +20,8 @@
       "Bash(node scripts/build-static.mjs)",
       "Bash(node -e ' *)",
       "Bash(git ls-tree *)",
-      "Bash(curl -sI \"https://steshenko.github.io/interview-2/?nocache=$\\(date +%s\\)\")"
+      "Bash(curl -sI \"https://steshenko.github.io/interview-2/?nocache=$\\(date +%s\\)\")",
+      "Bash(curl -s \"https://steshenko.github.io/interview-2/?nocache=$\\(date +%s%N\\)\")"
     ]
   }
 }
